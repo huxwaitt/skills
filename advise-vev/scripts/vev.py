@@ -189,10 +189,16 @@ def report(spec):
 
 
 def main():
+    # The report draws with ★ █ ·; Windows consoles default to cp1252 and would
+    # raise UnicodeEncodeError on them.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except AttributeError:  # pre-3.7 stdout, or already-wrapped stream
+        pass
     if len(sys.argv) != 2:
         print(__doc__)
         sys.exit(1)
-    with open(sys.argv[1]) as f:
+    with open(sys.argv[1], encoding="utf-8") as f:
         spec = json.load(f)
     print(report(spec))
 
