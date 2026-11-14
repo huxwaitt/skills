@@ -1,0 +1,178 @@
+{
+ "_comment": "Platform registry. `focus` steers the research agents; `docs` are entry points for live lookups, last checked by the 2026-11-14 research (the notes win on conflict); `clis` drive scripts/cli_map.py. Add a platform with the add-platform steps in SKILL.md.",
+ "platforms": {
+  "aws": {
+   "name": "Amazon Web Services",
+   "scope": "AWS core plus AI/agent services: IAM, IAM Identity Center, Organizations, STS, Bedrock (models, Knowledge Bases, Guardrails, Agents), Bedrock AgentCore (Runtime, Gateway, Identity, Memory, Policy, Observability), Amazon Q / Quick Suite, SageMaker AI, Lambda, Step Functions, EventBridge, PrivateLink.",
+   "focus": "Which role and policy setup an agent runtime needs (execution roles, Bedrock model access, AgentCore Identity and Gateway auth), cross-account and federation patterns (Identity Center, OIDC to GitHub and other clouds), official AWS MCP servers (AWS MCP Server, Knowledge MCP, awslabs MCP servers), Bedrock vs AgentCore positioning, quotas that throttle agents.",
+   "docs": [
+    "https://docs.aws.amazon.com/",
+    "https://docs.aws.amazon.com/bedrock/latest/userguide/",
+    "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/",
+    "https://awslabs.github.io/mcp/"
+   ],
+   "clis": [
+    "aws"
+   ]
+  },
+  "azure": {
+   "name": "Microsoft Azure",
+   "scope": "Azure core plus AI: Microsoft Entra ID (app registrations, service principals, managed identities, workload identity federation, Entra Agent ID), Azure RBAC, Azure AI Foundry (Foundry Agent Service, models incl. Azure OpenAI, evaluations), Azure AI Search, Azure API Management (AI gateway, MCP), Logic Apps, Functions, Microsoft Fabric, Private Link.",
+   "focus": "Tenant/subscription/resource-group model and who grants what, Entra roles vs Azure RBAC roles needed for Foundry projects and agents, keyless auth (managed identity, federated credentials), official Azure MCP Server and Foundry MCP support, API Management as MCP gateway, content safety and data-handling commitments.",
+   "docs": [
+    "https://learn.microsoft.com/azure/",
+    "https://learn.microsoft.com/azure/foundry/",
+    "https://learn.microsoft.com/entra/",
+    "https://learn.microsoft.com/api/mcp (Microsoft Learn MCP server)"
+   ],
+   "clis": [
+    "az",
+    "azd"
+   ]
+  },
+  "gcp": {
+   "name": "Google Cloud",
+   "scope": "Google Cloud core plus AI: Cloud IAM, resource hierarchy, service accounts, Workload Identity Federation, VPC Service Controls, Vertex AI (Model Garden, Gemini on Vertex, Vertex AI Agent Builder, Agent Engine, RAG Engine, Vertex AI Search), BigQuery, Cloud Run, Apigee, Application Integration.",
+   "focus": "Org/folder/project model, roles for Vertex AI and Agent Engine (roles/aiplatform.*), service-account impersonation and keyless federation, Google-managed and open-source MCP servers for Google Cloud (MCP Toolbox for Databases, remote MCP servers), ADK and A2A on Google Cloud, VPC-SC and data residency for Gemini.",
+   "docs": [
+    "https://docs.cloud.google.com/docs",
+    "https://docs.cloud.google.com/vertex-ai/docs",
+    "https://docs.cloud.google.com/iam/docs",
+    "https://developerknowledge.googleapis.com/mcp (docs MCP server)"
+   ],
+   "clis": [
+    "gcloud",
+    "bq"
+   ]
+  },
+  "databricks": {
+   "name": "Databricks",
+   "scope": "Databricks Data Intelligence Platform on AWS/Azure/GCP: account vs workspace, Unity Catalog, identity (users, groups, service principals, OAuth M2M/U2M, PATs, workload identity federation), Mosaic AI (Agent Framework, Agent Bricks, Model Serving, Foundation Model APIs, AI Gateway, Vector Search, Agent Evaluation, MLflow), Genie, Databricks Apps, Lakebase, SQL warehouses, Lakeflow.",
+   "focus": "Admin roles at account vs workspace level and Unity Catalog privileges an agent needs, OAuth for service principals vs PATs, managed MCP servers (Unity Catalog functions, Genie, Vector Search) and custom MCP on Databricks Apps, how agents are deployed and authenticated (on-behalf-of-user vs automatic passthrough), per-cloud differences.",
+   "docs": [
+    "https://docs.databricks.com/",
+    "https://docs.databricks.com/aws/en/agents/",
+    "https://docs.databricks.com/llms.txt"
+   ],
+   "clis": [
+    "databricks"
+   ]
+  },
+  "snowflake": {
+   "name": "Snowflake",
+   "scope": "Snowflake AI Data Cloud: organization/account model, roles (ACCOUNTADMIN, SYSADMIN, SECURITYADMIN, custom roles, database roles, application roles), authentication (key pair, OAuth, programmatic access tokens, workload identity federation, SSO), Cortex AI (Cortex AISQL/LLM functions, Cortex Search, Cortex Analyst, Cortex Agents, Snowflake Intelligence), Snowpark, Snowpark Container Services, Native Apps, network policies, PrivateLink.",
+   "focus": "Which privileges and roles Cortex Agents, Cortex Search and Cortex Analyst need, service-user setup for agents (TYPE=SERVICE, key pair or PAT, network policy), the Snowflake-managed MCP server and open-source MCP server, REST APIs (SQL API, Cortex REST), cross-region inference, credit-based pricing model.",
+   "docs": [
+    "https://docs.snowflake.com/",
+    "https://docs.snowflake.com/en/user-guide/snowflake-cortex/overview"
+   ],
+   "clis": [
+    "snow"
+   ]
+  },
+  "oci": {
+   "name": "Oracle Cloud Infrastructure",
+   "scope": "OCI core plus AI: tenancy and compartments, OCI IAM with Identity Domains, policies (policy language), dynamic groups, instance and resource principals, API signing keys, OCI Generative AI (models, dedicated AI clusters), OCI Generative AI Agents, Autonomous Database (Select AI, Select AI Agent), Oracle Database 23ai/26ai vector search, OCI Functions, API Gateway, Integration Cloud, FastConnect, multicloud (Oracle Database@AWS/Azure/Google Cloud).",
+   "focus": "Policy statements an agent needs (allow group/dynamic-group ... to use generative-ai-family), resource principals vs API keys, Identity Domains admin roles, Oracle MCP servers (oracle/mcp repo, SQLcl MCP server, Autonomous DB MCP), Gen AI Agents tools and RAG, region availability of Gen AI.",
+   "docs": [
+    "https://docs.oracle.com/en-us/iaas/Content/home.htm",
+    "https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm",
+    "https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/home.htm"
+   ],
+   "clis": [
+    "oci"
+   ]
+  },
+  "oracle-epm": {
+   "name": "Oracle Fusion Cloud EPM",
+   "scope": "Oracle EPM Cloud: Planning (incl. Modules), Financial Consolidation and Close (FCCS), Tax Reporting, Account Reconciliation (ARCS), Narrative Reporting, Profitability and Cost Management, Enterprise Data Management (EDM), Freeform; EPM Automate, EPM REST APIs, Groovy business rules, Data Integration/Data Exchange, Pipelines, EPM Integration Agent, IPM Insights and EPM AI features, OCI IAM Identity Domains for EPM, predefined and application roles.",
+   "focus": "How an agent authenticates to EPM (basic auth vs OAuth 2.0 via OCI IAM Identity Domains, refresh tokens for EPM Automate), predefined roles (Service Administrator, Power User, User, Viewer) vs application roles and access control groups, REST API surface per business process (jobs, data import/export, metadata, snapshots), EPM Automate install and command groups, daily maintenance windows and API limits, any EPM AI agent or MCP offering, test vs production environments.",
+   "docs": [
+    "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/",
+    "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/prest/",
+    "https://docs.oracle.com/en/cloud/saas/enterprise-performance-management-common/cepma/"
+   ],
+   "clis": [
+    "epmautomate"
+   ]
+  },
+  "salesforce": {
+   "name": "Salesforce",
+   "scope": "Salesforce Platform: orgs (production, sandbox, scratch), profiles, permission sets and permission set groups, Connected Apps and External Client Apps, OAuth flows (JWT bearer, client credentials, web server), Agentforce (Agent Builder/Agentforce Builder, Atlas reasoning engine, topics and actions, Agentforce API, Einstein Trust Layer), Data Cloud (Data 360), MuleSoft (Anypoint, MCP connector, Agent Fabric), Heroku, Slack, REST/SOAP/Bulk/Streaming/Pub-Sub APIs.",
+   "focus": "Licenses and permission sets needed to build and run Agentforce agents, integration user and OAuth setup for an external agent calling Salesforce, Salesforce-hosted MCP servers and MCP support in Agentforce, Agentforce API for headless agents, API limits per org, Flex Credits pricing model, Salesforce CLI (sf) plugins for agents.",
+   "docs": [
+    "https://developer.salesforce.com/docs",
+    "https://help.salesforce.com/",
+    "https://developer.salesforce.com/docs/einstein/genai/guide/"
+   ],
+   "clis": [
+    "sf"
+   ]
+  },
+  "microsoft-copilot": {
+   "name": "Microsoft 365 Copilot and Power Platform",
+   "scope": "Microsoft 365 Copilot (Copilot Chat, agents, Microsoft 365 Agents SDK, Agents Toolkit, declarative agents, Copilot connectors/Graph connectors, Microsoft Graph), Copilot Studio (agents, topics, actions, MCP support, autonomous agents, computer use), Agent 365 / agent registry and governance, Power Platform (Power Apps, Power Automate incl. desktop flows/RPA, Dataverse, connectors and custom connectors, environments, DLP policies, Managed Environments), Microsoft Purview for AI.",
+   "focus": "Licensing (Microsoft 365 Copilot license vs Copilot Studio capacity/messages/credits vs pay-as-you-go), admin roles (Global Admin, AI Administrator, Power Platform Administrator, environment roles, Dataverse security roles), app registration and Graph permissions an agent needs, Dataverse Web API and MCP server, Copilot Studio MCP and connector extensibility, environment strategy and DLP, Power Platform CLI (pac) and CLI for Microsoft 365.",
+   "docs": [
+    "https://learn.microsoft.com/microsoft-365/copilot/extensibility/",
+    "https://learn.microsoft.com/microsoft-copilot-studio/",
+    "https://learn.microsoft.com/power-platform/",
+    "https://learn.microsoft.com/graph/",
+    "https://learn.microsoft.com/api/mcp (Microsoft Learn MCP server)"
+   ],
+   "clis": [
+    "pac",
+    "m365"
+   ]
+  },
+  "google-ai": {
+   "name": "Google Gemini and Workspace AI",
+   "scope": "Google's Gemini tooling outside core Google Cloud infra: Gemini API and Google AI Studio, Gemini models and Live API, Gemini Enterprise (formerly Google Agentspace) with agents, connectors and Agent Gallery, Gemini in Google Workspace and Workspace APIs/Apps Script, NotebookLM Enterprise, Gemini CLI, Gemini Code Assist, Jules, Agent Development Kit (ADK), Agent2Agent (A2A) protocol, Agent Payments Protocol (AP2), Google-hosted MCP servers.",
+   "focus": "Gemini API (API keys, AI Studio) vs Vertex AI Gemini (IAM, enterprise terms) and when to use which, Gemini Enterprise editions, admin roles and connector setup (data stores, identity mapping), Workspace admin controls for Gemini, ADK deployment targets and A2A, Gemini CLI install/auth and extensions, data-usage terms (paid vs free tier).",
+   "docs": [
+    "https://aistudio.google.com/docs",
+    "https://aistudio.google.com/llms.txt",
+    "https://docs.cloud.google.com/gemini-enterprise/docs",
+    "https://adk.dev/",
+    "https://a2a-protocol.org/",
+    "https://developers.google.com/workspace"
+   ],
+   "clis": [
+    "gemini",
+    "agy"
+   ]
+  },
+  "openai": {
+   "name": "OpenAI",
+   "scope": "OpenAI API platform (organizations, projects, API keys, service accounts, roles, Responses API, Chat Completions, Realtime, Assistants deprecation, models), Agents SDK, AgentKit (Agent Builder, ChatKit, Connector Registry, Evals), Apps SDK and apps in ChatGPT, ChatGPT Enterprise/Business/Edu (admin console, SSO/SCIM, RBAC, connectors, Compliance API, data residency), Codex (CLI, cloud, IDE), MCP support (remote MCP tool in Responses, connectors), Azure OpenAI relationship.",
+   "focus": "Org/project/role model and key types (project keys, service accounts, admin keys), rate-limit tiers, data retention and zero-data-retention options, Responses API + remote MCP tool and connectors, how ChatGPT Enterprise connectors and custom MCP connectors are enabled by admins, Codex CLI install/auth, deprecation timelines (Assistants API).",
+   "docs": [
+    "https://platform.openai.com/docs",
+    "https://openai.github.io/openai-agents-python/",
+    "https://help.openai.com/"
+   ],
+   "clis": [
+    "codex"
+   ]
+  },
+  "anthropic": {
+   "name": "Anthropic Claude",
+   "scope": "Claude API (organizations, workspaces, API keys, admin API, Messages API, tool use, MCP connector, Files, prompt caching, batch), Claude models and availability via Amazon Bedrock, Google Vertex AI and Microsoft Foundry, Claude Agent SDK, Claude Code (CLI, enterprise settings, managed policies), Claude for Enterprise/Team (SSO, SCIM, roles, connectors, data retention), Model Context Protocol (spec, registry, remote servers, auth).",
+   "focus": "Direct API vs cloud-marketplace access and their auth/identity differences, workspace roles and key management, enterprise admin controls for connectors and MCP, Claude Code install/auth options (subscription, API key, Bedrock/Vertex), MCP spec authorization model, rate-limit tiers and data retention.",
+   "docs": [
+    "https://platform.claude.com/docs",
+    "https://platform.claude.com/docs/mcp (docs MCP server)",
+    "https://code.claude.com/docs",
+    "https://modelcontextprotocol.io/",
+    "https://support.claude.com/"
+   ],
+   "clis": [
+    "claude"
+   ]
+  }
+ },
+ "parts": {
+  "access": "Access, identity, roles, governance and commercial model",
+  "build": "Capabilities, connectivity (APIs, SDKs, MCP, connectors), CLIs and IaC, documentation entry points, limits and gotchas"
+ }
+}

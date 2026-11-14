@@ -1,0 +1,20 @@
+{"groups": ["d799e60d479", "d2a889c9c92", "d52ea48b258", "df9417431cb", "d74efd1ee1a", "dafdcc677d3", "d1a043cf8d6", "d18bffce2d3", "d4a1154315d", "d6468bc99d4", "d0ae1a632ce", "d05aaa1ed26", "d3aa86c2ff1", "d4632a08e7f", "dd3ca04d0cc", "d5fa104f208", "d9fe9bfb7f6", "d34fc592cad", "dd5300d4895", "d672bb44993", "daffecb2808", "d381b7072bf", "d376f315ea5", "d01e433ac74", "da322ac60ad", "dcf2724b2d6", "dbf3e9a0787", "d3a70c7e66d", "dc8bca3aed8", "def3a5ffccd", "dca0fbb3142", "ddf162608cc", "d83c11596b0", "d833334e62b", "d29eccb9d4b", "df7df0fb6f0", "d60ee0a0cbe", "d70d35c14eb", "d50f0063356", "d613d01d425", "d6056a50e07", "dcebcc4b917", "debf4d2a743", "d81d86bd5d2", "d5fb99f28db", "dfce071331f", "d94477aaacb", "d426543d12d", "dfe7aff5921", "d94f73d6bb2", "daa885a2c77", "d8a27f64f65", "d35d84d0793", "d56d4324347", "d29f4843af5", "dee78554cac", "d1918a0f70b", "d2c44a94c31", "d605c9dd7c9", "d9bef1c7dd8"],
+ "merges": [
+  {"canonical": "databricks default oauth apps for external ai agents", "members": ["databricks default oauth apps for external agents", "databricks default oauth apps for external ai agents"]},
+  {"canonical": "foundry agent consumer role", "members": ["foundry agent consumer", "foundry agent consumer role"]},
+  {"canonical": "oci generative ai generatetext api", "members": ["oci generatetext api", "oci generative ai generatetext api"]},
+  {"canonical": "snowflake ai_functions_user database role", "members": ["snowflake ai_functions_user", "snowflake ai_functions_user database role"]},
+  {"canonical": "snowflake cortex_embed_user database role", "members": ["snowflake cortex_embed_user", "snowflake cortex_embed_user database role"]},
+  {"canonical": "snowflake cortex cross-region inference", "members": ["snowflake cortex cross-region inference", "snowflake cross-region inference"]},
+  {"canonical": "unity gateway ug cli", "members": ["ug cli", "unity gateway ug cli"]},
+  {"canonical": "unity gateway model service", "members": ["unity gateway model service", "unity gateway model services"]},
+  {"canonical": "azure application insights", "members": ["application insights", "azure application insights"]},
+  {"canonical": "foundry user role", "members": ["foundry user", "foundry user role"]},
+  {"canonical": "azure ai account owner role", "members": ["azure ai account owner", "azure ai account owner role"]},
+  {"canonical": "azure ai owner role", "members": ["azure ai owner", "azure ai owner role"]},
+  {"canonical": "azure rbac cognitive services user role", "members": ["azure rbac cognitive services user role", "cognitive services user"]},
+  {"canonical": "azure ai project manager role", "members": ["azure ai project manager", "azure ai project manager role"]},
+  {"canonical": "azure ai user role", "members": ["azure ai user", "azure ai user role"]},
+  {"canonical": "azure devops mcp server", "members": ["azure devops mcp", "azure devops mcp server"]},
+  {"canonical": "azure resource manager", "members": ["azure resource manager", "azure resource manager api"]}
+ ]}
