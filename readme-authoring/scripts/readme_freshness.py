@@ -255,7 +255,8 @@ def run_checks(root, cfg, include_worktree=False, full=False):
     deleted = {p for p, s in changed.items() if s == "D"}
 
     # broken-link: local targets only.
-    targets = set(LINK_RE.findall(text)) | set(REF_LINK_RE.findall(text)) | set(HTML_SRC_RE.findall(text))
+    rendered = re.sub(r"^\s*(```|~~~)[^\n]*\n.*?^\s*\1[^\n]*$", "", text, flags=re.S | re.M)  # links in code don't render
+    targets = set(LINK_RE.findall(rendered)) | set(REF_LINK_RE.findall(rendered)) | set(HTML_SRC_RE.findall(rendered))
     for t in sorted(targets):
         if re.match(r"^([a-z][a-z0-9+.-]*:|//|#|\{|\$)", t, re.I):
             continue

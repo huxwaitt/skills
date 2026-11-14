@@ -40,6 +40,7 @@ https://benbridle.com/art-of-readme/)
 
 ### Standard Readme (Richard Litt)
 https://github.com/RichardLitt/standard-readme/blob/main/spec.md
+Full copy of its README: [`examples/RichardLitt__standard-readme.md`](examples/RichardLitt__standard-readme.md)
 
 A spec, not a template. Its rules worth enforcing anywhere:
 - Short description **under 120 characters**, on its own line, matching the package manager's

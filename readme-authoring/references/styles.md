@@ -45,6 +45,7 @@ Links. One line each.
 **Reference examples**
 
 - **golang/go** (score 0, 177 words): https://github.com/golang/go
+  Full copy: [`examples/golang__go.md`](examples/golang__go.md)
   > Go is an open source programming language that makes it easy to build simple, reliable, and
   > efficient software.
 
@@ -52,6 +53,7 @@ Links. One line each.
   "Contributing" (one link). Steal: the restraint. Nothing in it can go stale.
 
 - **suckless st** (about 700 bytes, plain text): https://git.suckless.org/st/
+  Full copy: [`examples/suckless__st.txt`](examples/suckless__st.txt)
   > st is a simple terminal emulator for X which sucks less.
 
   Then Requirements ("you need the Xlib header files"), Installation (`make clean install`),
@@ -59,6 +61,7 @@ Links. One line each.
   file that reads perfectly in `cat`.
 
 - **mpv** (score 6): https://github.com/mpv-player/mpv
+  Full copy: [`examples/mpv-player__mpv.md`](examples/mpv-player__mpv.md)
   > **mpv** is a free (as in freedom) media player for the command line.
 
   Its System requirements section is unusually honest:
@@ -68,6 +71,7 @@ Links. One line each.
   Steal: project-specific sections ("Release cycle", "Bug reports") instead of template ones.
 
 - **python-poetry/poetry** (score 6): https://github.com/python-poetry/poetry
+  Full copy: [`examples/python-poetry__poetry.md`](examples/python-poetry__poetry.md)
   > Poetry replaces `setup.py`, `requirements.txt`, `setup.cfg`, `MANIFEST.in` and `Pipfile` with
   > a simple `pyproject.toml` based project format.
 
@@ -103,6 +107,7 @@ the smallest program that does something real   <- copied from a file that runs
 **Reference examples**
 
 - **expressjs/express** (score 0): https://github.com/expressjs/express
+  Full copy: [`examples/expressjs__express.md`](examples/expressjs__express.md)
   > **Fast, unopinionated, minimalist web framework for Node.js.**
 
   The Philosophy section states the stance and its trade-off:
@@ -111,6 +116,7 @@ the smallest program that does something real   <- copied from a file that runs
   Steal: "unopinionated" is itself a claim with a cost, and the README owns it.
 
 - **create-react-app** (score 6): https://github.com/react/create-react-app
+  Full copy: [`examples/react__create-react-app.md`](examples/react__create-react-app.md)
   > Create React apps with no build configuration.
   ```sh
   npx create-react-app my-app
@@ -146,6 +152,7 @@ Two or three sentences on what just happened in the demo.
 **Reference examples**
 
 - **prettier/prettier** (score 9, 177 prose words): https://github.com/prettier/prettier
+  Full copy: [`examples/prettier__prettier.md`](examples/prettier__prettier.md)
   Banner, "Opinionated Code Formatter", the list of languages, one Intro sentence, then two
   headings literally called **Input** and **Output**:
   ```js
@@ -156,6 +163,7 @@ Two or three sentences on what just happened in the demo.
   Note its "speed: blazing" badge links to a joke tweet; the linter flags it, a human gets the joke.
 
 - **Closures** (score 0): https://github.com/dusty-commits/Closures (formerly vhesener/Closures)
+  Full copy: [`examples/dusty-commits__Closures.md`](examples/dusty-commits__Closures.md)
   > Some days, you just feel like dealing with UIControl's target-action using a closure instead.
   ```swift
   button.onTap {
@@ -189,12 +197,14 @@ Pitch (1-2 sentences) + the smallest working example.
 **Reference examples**
 
 - **amazonica** (score 0, 5,673 words): https://github.com/mcohen01/amazonica
+  Full copy: [`examples/mcohen01__amazonica.md`](examples/mcohen01__amazonica.md)
   > A comprehensive Clojure client for the entire Amazon AWS API.
 
   Then installation and an example for every service. A Hacker News commenter called it the best
   README they had seen. Steal: completeness *of examples*, not of prose.
 
 - **tqdm** (score 6, 5,699 words): https://github.com/tqdm/tqdm
+  Full copy: [`examples/tqdm__tqdm.rst`](examples/tqdm__tqdm.rst)
   > Instantly make your loops show a smart progress meter - just wrap any iterable with
   > `tqdm(iterable)`, and you're done!
   ```python
@@ -207,10 +217,12 @@ Pitch (1-2 sentences) + the smallest working example.
   Steal: real output pasted under the code. The proof beats any adjective.
 
 - **HTTPie** (score 6): https://github.com/httpie/cli
+  Full copy: [`examples/httpie__cli.md`](examples/httpie__cli.md)
   Famous for its large examples section. The README is now trimmed to about 380 words and points
   to httpie.io/docs. Moving the depth out once a docs site exists is the normal end of this style.
 
 - **re-frame** (score 3): https://github.com/day8/re-frame
+  Full copy: [`examples/day8__re-frame.md`](examples/day8__re-frame.md)
   Known for a long essay on the design and its philosophy. The essay now lives on the docs site;
   the README keeps the argument's spine:
   > re-frame takes a different road to the currently-pervasive idea that Views should be causal
@@ -228,6 +240,7 @@ decoration. A joke that doesn't connect to the project is just noise.
 **Reference examples**
 
 - **psf/black** (score 0): https://github.com/psf/black
+  Full copy: [`examples/psf__black.md`](examples/psf__black.md)
   > “Any color you like.”
   >
   > *Black* is the uncompromising Python code formatter. By using it, you agree to cede control
@@ -238,6 +251,7 @@ decoration. A joke that doesn't connect to the project is just noise.
   it's black") *is* the design philosophy.
 
 - **ohmyzsh/ohmyzsh** (score 0): https://github.com/ohmyzsh/ohmyzsh
+  Full copy: [`examples/ohmyzsh__ohmyzsh.md`](examples/ohmyzsh__ohmyzsh.md)
   > Oh My Zsh is an open source, community-driven framework for managing your zsh configuration.
   >
   > Sounds boring. Let's try again.
@@ -247,6 +261,7 @@ decoration. A joke that doesn't connect to the project is just noise.
   Steal: self-awareness. It writes the dull sentence, admits it, and then does better.
 
 - **Doom Emacs** (score 0): https://github.com/doomemacs/core (formerly doomemacs/doomemacs)
+  Full copy: [`examples/doomemacs__core.md`](examples/doomemacs__core.md)
   A centered title, a link bar (Install, Documentation, FAQ, Screenshots, Contribute), a
   screenshot, then an introduction that opens:
   > It is a story as old as time. A stubborn, shell-dwelling, and melodramatic
@@ -254,6 +269,7 @@ decoration. A joke that doesn't connect to the project is just noise.
   Steal: the above-the-fold link bar for a big project, and an intro with a narrator.
 
 - **kelseyhightower/nocode** (score 0, about 65k stars): https://github.com/kelseyhightower/nocode
+  Full copy: [`examples/kelseyhightower__nocode.md`](examples/kelseyhightower__nocode.md)
   > No code is the best way to write secure and reliable applications. Write nothing; deploy
   > nowhere.
 
