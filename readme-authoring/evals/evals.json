@@ -1,0 +1,65 @@
+{
+  "skill_name": "readme-authoring",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "can you write a README for this repo? it's a little node CLI I made called `tidyjson` that sorts keys and normalises whitespace in JSON files. package.json has a bin entry, there's a test folder, no docs site.",
+      "expected_output": "Reads package.json, the bin entry, tests and source; runs `tidyjson --help` (or copies usage from tests) to capture real output. Recommends code-first (small CLI, value shows in a few commands, no docs site), using the decision table. Confirms with ONE AskUserQuestion call: the recommended option first with '(Recommended)', 2-3 options, each preview showing the first ~12 lines of tidyjson's own README in that style, and a second question for the trade-off or non-goal if the repo doesn't reveal one. Waits for the answer, records `style` in .claude/readme-authoring.json, drafts. The README opens with a specific claim, then install and a real before/after example; states a cost (e.g. what it doesn't handle). No emoji headings, no filler, no invented benchmarks. Runs readme_lint.py (score under 15) and readme_freshness.py check --full (no errors). Offers commit-time freshness checks in one line.",
+      "files": [],
+      "expectations": [
+        "Asks exactly one AskUserQuestion call with the recommended style first and labelled (Recommended)",
+        "Previews use the real project name and real commands, not a generic template",
+        "Does not draft before the user answers",
+        "Every command in the final README was run or copied from tests/CI",
+        "Lint score under 15; freshness --full reports no errors"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build me a small Python library that parses ISO-8601 durations (like P3DT4H) into timedelta objects, with tests, packaging via pyproject, and a README. Don't stop to ask me things, just get it done and tell me when it's finished.",
+      "expected_output": "Treats the README as one deliverable inside a long autonomous task, so it does NOT call AskUserQuestion for style. Picks code-first from the decision table (small library, value shows in a few lines), drafts using real output captured by running the example against the code just written, records the style in .claude/readme-authoring.json, runs the lint and freshness checks, and ends with a one-line report: style used, why, and how to switch. States a real limitation (e.g. no support for year/month components, because timedelta can't represent them) instead of claiming completeness.",
+      "files": [],
+      "expectations": [
+        "No AskUserQuestion call for the README style",
+        "Final report names the chosen style, the reason, and how to switch",
+        "README example output matches what the code actually produces",
+        "README states at least one real limitation"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "[Hook context] README freshness (README.md): 3 finding(s)\n  [error] removed-flag L41: README documents --legacy-format, which this change removes from the code.\n  [warn] undocumented-flag: New flag --format is not mentioned in the README.\n  [warn] surface-touched: Public-surface files changed (src/cli.ts, package.json) but README.md is not in this commit.\n\nRun the readme-authoring skill in freshness mode on README.md (recorded style: code-first). Fix real staleness in the README; leave false positives alone. The commit is proceeding (warn mode); follow up with a README commit if the review finds real staleness.",
+      "expected_output": "Enters freshness mode. Runs readme_freshness.py check --json, reads the diff for src/cli.ts and package.json, confirms --legacy-format was replaced by --format, updates only the README lines that mention the old flag (keeping code-first style), adds --format where flags are documented, and judges the package.json change (e.g. a dependency bump) as not README-relevant. Lints the result, commits the README as a follow-up commit, and reports in one or two lines. Does not rewrite unrelated sections or use README_FRESHNESS_SKIP.",
+      "files": [],
+      "expectations": [
+        "Edits only README lines affected by the diff",
+        "Classifies each finding (stale / false positive / needs user)",
+        "Makes a follow-up README commit because mode is warn",
+        "Does not use README_FRESHNESS_SKIP=1"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "this README reads like chatgpt wrote it (it did lol). can you make it not suck? keep all the actual info",
+      "expected_output": "Uses the rewrite recipe. Runs readme_lint.py first and keeps the findings. Extracts every real fact (commands, flags, config keys, requirements, links) and verifies each against the code; drops or fixes those that don't verify and says which. Infers the existing project type, recommends a style and confirms it with one AskUserQuestion call (recommended first), unless a style is already recorded. Rebuilds around a specific claim, the smallest real example and a stated cost; removes emoji headings, filler, template sections, the directory tree and boilerplate contributing text. Re-lints and reports before/after scores and any facts it could not verify.",
+      "files": [],
+      "expectations": [
+        "Reports lint score before and after",
+        "Every surviving fact was verified against the code",
+        "Lists facts that were dropped because they did not verify",
+        "No emoji headings, filler words or empty sections in the result"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "can you make it so the README gets checked whenever you commit in this repo? warn me, don't block",
+      "expected_output": "Explains in one line what the check does, confirms target only if ambiguous (defaults to Claude's commits; offers the git pre-commit hook for the user's own commits), runs `readme_freshness.py enable --mode warn --target claude`, then `status`, and reports what was written: .claude/readme-authoring.json (enabled, warn), the PreToolUse hook in .claude/settings.local.json, and the .gitignore line. Mentions that the hook is live after Claude Code reloads settings (/hooks once, or restart). Does not enable block mode or touch an existing pre-commit hook.",
+      "files": [],
+      "expectations": [
+        "Runs enable with --mode warn",
+        "Reports every file written or changed",
+        "Mentions the settings reload caveat"
+      ]
+    }
+  ]
+}
