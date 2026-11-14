@@ -1,0 +1,13 @@
+{"groups": ["d3ee61670ec", "dad0dd52c89", "d42f2856086", "d2ce5a7c42e", "d52521036d8", "d5a260ca3f2", "d76135a7af6", "d55aac3029f", "d5d6e0b4ba6", "da6721e4863", "d274e5bd6b3", "def696a732c", "d82f897ad8e", "d5289165424", "d2af348ba7e", "dd0454e3a09", "dee5507d7d3", "d34a7da6097", "d9be0a60581", "d13ae95a619", "d31bf491fd0", "da6f33d3417", "d61833ecb58", "d8590ee6311", "da3233d47bd", "dbe9d3a2be6", "d6d5134b9f7", "dcc23f31132", "d94dc8abc6a", "d13b28e5ab9", "d53a8ff8784", "d7308c8f96e", "dd2ddf2b3af", "d1e57fdd9af", "d85bae79d59", "d3fdf071d85", "dd34932c6be", "db2b15621ae", "de60c2ba02b", "d5ed310922c", "deba31608af", "d31f34d5835", "d68923ff955", "d549fd87edb", "d9e8294ab4d", "d96f120ce52", "d9db2464fe7", "dc4cfe32463", "d765ae10678", "dbe0fbd0352", "dd66695f254", "db02cfaf06c", "dbd92454755", "d0e6f10f5db", "dda69a283b6", "d52f283d6df", "d7cc7bdc2c1", "d4f020554eb", "d022c16f067", "db6a8cb84d2"],
+ "merges": [
+  {"canonical": "cognitive services usages reader", "members": ["cognitive services usages reader", "cognitive services usages reader role"]},
+  {"canonical": "cortex_models_allowlist", "members": ["cortex_models_allowlist", "cortex_models_allowlist parameter"]},
+  {"canonical": "fabric administrator", "members": ["fabric administrator", "fabric administrator role"]},
+  {"canonical": "foundry account owner", "members": ["foundry account owner", "foundry account owner role"]},
+  {"canonical": "foundry owner", "members": ["foundry owner", "foundry owner role"]},
+  {"canonical": "lakebase postgres", "members": ["lakebase", "lakebase postgres"]},
+  {"canonical": "opentelemetry", "members": ["opentelemetry", "opentelemetry otel"]},
+  {"canonical": "ping identity pingfederate", "members": ["ping identity pingfederate", "pingfederate"]},
+  {"canonical": "saml 2 0", "members": ["saml 2 0", "saml"]},
+  {"canonical": "scim 2 0", "members": ["scim 2 0", "scim"]}
+ ]}

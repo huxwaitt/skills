@@ -1,0 +1,15 @@
+{"groups": ["e8ff89ecc84", "effde56568d", "eebb150393f", "ef68cefb89c", "eada4abf148", "e85d76f27f3", "e1c3f9cfe6a", "ec19a7feee8", "e40bcb308f1", "e8cff4752fd", "e74a0bc9188", "e161c57b97d", "ee70a05d858", "e2de8769b61", "eb19e1954af", "ef89d1669fd", "e8ac3cd50d3", "e31ef66a1bd", "e59f1ae4749", "e41e68859a7", "e03c424f030", "ecc3e8dc636", "e9c507dc1b0", "ea5a30a5461", "e06ed7a3044"], "decisions": [
+{"fid": "fc8629dc5df", "duplicate_of": "fa79aebecfc"},
+{"fid": "ff3dedc3105", "duplicate_of": "f3fcd0d914b"},
+{"fid": "f55f06189c4", "duplicate_of": "fff6efe78b2"},
+{"fid": "fb90d8e7e0e", "duplicate_of": "fe5079e414d"},
+{"fid": "f6c9b29df85", "duplicate_of": "f632421cdcd"},
+{"fid": "fa7c5d918f0", "duplicate_of": "fc85db43b31"},
+{"fid": "fcfe6deb79d", "duplicate_of": "f090bc5612a"},
+{"fid": "f48172e82e5", "duplicate_of": "f1be80c7f5a"},
+{"fid": "f8a1215195b", "duplicate_of": "f1be80c7f5a"},
+{"fid": "f5cc28d6150", "duplicate_of": "f12b581b975"},
+{"fid": "f4cee34116d", "duplicate_of": "f12b581b975"},
+{"fid": "f9f6bc2651a", "duplicate_of": "f72cf1d7313"},
+{"fid": "f10ff2cab2e", "duplicate_of": "f72cf1d7313"}
+]}

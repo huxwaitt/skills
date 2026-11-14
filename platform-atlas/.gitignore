@@ -1,0 +1,10 @@
+# Rebuilt locally by `atlas.py build` (seconds, no models)
+kb/graph/kg.sqlite
+kb/graph/kg.sqlite.tmp
+kb/graph/sources/
+kb/graph/pages/
+# Transient agent inputs (hold absolute paths)
+kb/graph/work/batches/
+kb/graph/work/*/tasks/
+*.tmp
+__pycache__/

@@ -1,0 +1,10 @@
+{"groups": ["e0d13ff1123", "e68b1c5cebe", "ee7d3bbd5e3", "e6a298fe432", "e5d7a964461", "e04ebd70e6d", "ed2c4812262", "e0878da8cb6", "e2b16671a99", "e2396423b93", "eaa1cc664f6", "e2850e48558", "eedef4e4398", "e804a0f89a1", "eb0594dac4a", "e7a6b2024e3", "ec91a78cd08", "e3ba327d2a0", "eba16d4487f", "ee51d4d3547", "ef526ec4df4", "e69b2b771f7", "ed031466e1d", "eb3616f2562", "e24cb699b7c"], "decisions": [
+{"fid": "f3ff9fb6630", "duplicate_of": "f11b1551e9a"},
+{"fid": "f619e3b6e3e", "duplicate_of": "f11b1551e9a"},
+{"fid": "f0b13b72c69", "duplicate_of": "f1307100a8c"},
+{"fid": "f96fa2e508d", "duplicate_of": "f1100eb3a9c"},
+{"fid": "f247422defd", "invalidated_by": "f1100eb3a9c", "invalid_at": "2027-01-01"},
+{"fid": "f8bb904eec2", "duplicate_of": "fce4e07e251"},
+{"fid": "fc669edf617", "duplicate_of": "ffbcfb773ae"},
+{"fid": "f1537f7b315", "duplicate_of": "fef9ff46278"}
+]}

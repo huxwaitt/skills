@@ -1,0 +1,12 @@
+{"groups": ["e7c4c9bc613", "e0f9f530887", "eeab76133c1", "ee261ebbf48", "ed1a2c89cf2", "ee1130ef3d2", "e8cc7ff2615", "e757154641f", "e67ebc5fde8", "edcca08763d", "e417ef12cbd", "e492c20a663", "e87c85956d8", "e94998c2e66", "edf3962a283", "ed2630352a4", "e546fd8d78d", "e1a0ca13cc0", "e36735101f6", "eb7f46160bc", "edee4135bf4", "eaacc5fe5c5", "e2ae1f25d1a", "edfe3c2deb1", "ed4a54d6999"], "decisions": [
+{"fid": "f587aa92f9b", "duplicate_of": "fac85a28755"},
+{"fid": "f42664dc92f", "duplicate_of": "fac85a28755"},
+{"fid": "fb2d82c0857", "duplicate_of": "fac85a28755"},
+{"fid": "f157330076e", "duplicate_of": "fcdf1d4427e"},
+{"fid": "f8a69887f78", "duplicate_of": "fcdf1d4427e"},
+{"fid": "f2fe8b6290f", "duplicate_of": "f3efcb3bd57"},
+{"fid": "fb15e694523", "duplicate_of": "f41c1568340"},
+{"fid": "f09fc998888", "duplicate_of": "f41c1568340"},
+{"fid": "f2468f5a4a1", "duplicate_of": "fbb1ae076a2"},
+{"fid": "f2db4c061b5", "duplicate_of": "f36f019ce97"}
+]}
