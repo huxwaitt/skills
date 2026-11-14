@@ -1,19 +1,10 @@
 ---
 name: readme-authoring
 description: >
-  Write, rewrite, review or keep fresh a project README, grounded in the READMEs engineers hold up
-  as models (Go, Express, Black, tqdm, Prettier, mpv, Oh My Zsh…) and the canonical essays (Readme
-  Driven Development, Art of README, Standard Readme, thoughtbot). Picks one of five proven styles,
-  recommends it with evidence from the repo and confirms it with the user (or decides alone inside
-  a long autonomous task), drafts from verified facts only, and lints out machine-written tells
-  (emoji headings, filler, template sections, invented output). Also runs opt-in commit-time
-  freshness checks that catch broken links, missing scripts, removed flags and env vars, and
-  stale version pins. Use WHENEVER the user wants a README created, improved, reviewed,
-  de-slopped, restructured or checked ("write a README", "document this repo", "my README sucks",
-  "is the README up to date", "make this README less AI-sounding"), whenever a task you are doing
-  ends with documenting a project, when a hook message mentions README freshness, or when the user
-  wants README checks on commit. Not for API reference generators, docstrings, CHANGELOGs or
-  docs sites beyond the README.
+  Write, rewrite, review or freshness-check a project README. Recommends one of five proven
+  styles and confirms it with the user, drafts from verified facts only, and strips AI-sounding
+  tells. Optional commit hook flags stale READMEs. Use for any README request, when a task ends
+  with documenting a project, or when a README freshness hook fires.
 ---
 
 # readme-authoring
