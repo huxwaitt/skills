@@ -22,6 +22,7 @@ Three modes:
 
 Supporting files (read when the step says so, not up front):
 - `references/styles.md`: the five styles, skeletons, annotated excerpts from 17 reference READMEs, and the decision table.
+- `references/examples/`: full, unmodified copies of those 17 READMEs, with `INDEX.md` mapping each one to its style.
 - `references/principles.md`: the essays and community consensus, and the seven traits.
 - `references/anti-patterns.md`: machine-written tells, the contrast table, the rewrite recipe.
 - `references/freshness.md`: config, the commit hook, each check and its false positives.
@@ -92,8 +93,10 @@ README question.
 
 ### 3. Draft
 
-Follow the chosen style's skeleton and steal from its reference examples in styles.md. Rules
-that hold in every style:
+Follow the chosen style's skeleton and steal from its reference examples in styles.md. Before
+drafting, open the full copy of one or two of that style's READMEs from `references/examples/`
+(`INDEX.md` lists them) to see the whole shape: what comes first, how long each section runs,
+where it hands off. Model the structure, never the wording. Rules that hold in every style:
 
 1. **First line: a claim specific to this project.** Test: could it describe a competitor? Then
    rewrite it. A claim that rules something out is stronger ("no build configuration",

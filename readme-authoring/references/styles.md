@@ -5,6 +5,10 @@ are praised for most. Excerpts are short quotations from the READMEs as fetched 
 Links point to the live READMEs, which keep changing; three have already moved on from the version
 that made them famous (noted inline).
 
+**Full copies** of all 17 READMEs, pinned to the commit they were taken from, are in
+`examples/` (see `examples/INDEX.md` for file names and licenses). Open the full copy when an
+excerpt isn't enough to see how the README is put together.
+
 Lint scores are `scripts/readme_lint.py` output at the time of writing (threshold 30). Every
 reference README scored 0-9. A typical LLM-template README scores 60+.
 
