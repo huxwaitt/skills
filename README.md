@@ -12,3 +12,4 @@ cp -r skills/<skill> ~/.claude/skills/
 | [`readme-authoring`](readme-authoring/SKILL.md) | Writes, reviews and freshness-checks READMEs in one of five proven styles. |
 | [`brandkit-builder`](brandkit-builder/SKILL.md) | Maps a website's frontend and brand into a kit, then regenerates on-brand assets. |
 | [`platform-atlas`](platform-atlas/SKILL.md) | Dated, cited knowledge graph of cloud, data and AI platforms (access, roles, MCP, APIs, CLIs) for building agents on them. |
+| [`product-research`](product-research/SKILL.md) | Researches a purchase and recommends what to buy from independent opinion only, never makers, sellers or paid reviewers, and saves a Markdown report. |
