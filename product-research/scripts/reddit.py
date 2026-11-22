@@ -225,32 +225,64 @@ def search(query, sub, when, sort, limit):
         print(f"{score:>6} pts {comments:>5} c  {p['date']}  r/{p['sub']}  {p['id']}  {p['title']}\n        {p['url']}")
 
 
-def thread(ref, top, chars):
+def thread(ref, top, chars, replies, find):
     m = re.search(r"/comments/([a-z0-9]+)", ref)
     pid = (m.group(1) if m else ref).removeprefix("t3_")
     post = (json.loads(get(f"{ARCTIC}/posts/ids?ids={pid}", "application/json")).get("data") or [{}])[0]
     time.sleep(PAUSE)
     nodes = json.loads(get(f"{ARCTIC}/comments/tree?link_id=t3_{pid}&limit=500", "application/json")).get("data") or []
-    rows, stack = [], [(n, 0) for n in reversed(nodes)]
-    while stack:
-        node, depth = stack.pop()
-        data = node.get("data") if isinstance(node, dict) and node.get("kind") == "t1" else None
-        if not isinstance(data, dict):
-            continue
-        if data.get("author") not in ("[deleted]", "[removed]", None) and data.get("body") not in ("[deleted]", "[removed]", None):
-            rows.append((int(data.get("score") or 0), depth, data))
-        replies = data.get("replies")
-        children = ((replies or {}).get("data") or {}).get("children") if isinstance(replies, dict) else None
-        stack.extend((c, depth + 1) for c in reversed(children or []))
     print(f"{post.get('title', '(post not in archive)')}\nr/{post.get('subreddit', '?')} | {post.get('score', '?')} pts | "
           f"{post.get('num_comments', '?')} comments | {day(post.get('created_utc'))} | u/{post.get('author', '?')}\n"
           f"{REDDIT}/comments/{pid}\n")
     if post.get("selftext"):
         print(post["selftext"][:chars * 2].strip() + "\n")
-    print(f"--- top {min(top, len(rows))} of {len(rows)} archived comments, by score")
-    for score, depth, d in sorted(rows, key=lambda r: -r[0])[:top]:
+    print("\n".join(comment_lines(nodes, top, chars, replies, find)))
+
+
+def comment_lines(nodes, top, chars, replies, find):
+    """A thread's comments as indented lines, every reply under the comment it answers.
+
+    A flat list of the highest-scored comments hides the one-point reply that says "mine died in
+    two years" under a recommendation, so replies are never ranked apart from their parent. With
+    find, every comment matching the pattern is shown with all its replies, whatever its score.
+    """
+    groups, stack = [], [(n, 0) for n in reversed(nodes)]  # one group per top-level comment, in thread order
+    while stack:
+        node, depth = stack.pop()
+        data = node.get("data") if isinstance(node, dict) and node.get("kind") == "t1" else None
+        if not isinstance(data, dict):
+            continue
+        if depth == 0:
+            groups.append([])
+        groups[-1].append((depth, data))
+        kids = data.get("replies")
+        children = ((kids or {}).get("data") or {}).get("children") if isinstance(kids, dict) else None
+        stack.extend((c, depth + 1) for c in reversed(children or []))
+
+    def line(depth, d):
         body = " ".join((d.get("body") or "").split())
-        print(f"[{score:>4}] u/{d.get('author')} (depth {depth}, {day(d.get('created_utc'))}): {body[:chars]}")
+        return f"{'    ' * depth}[{int(d.get('score') or 0):>4}] u/{d.get('author')} ({day(d.get('created_utc'))}): {body[:chars]}"
+
+    total, out = sum(len(g) for g in groups), []
+    if find:
+        pattern = re.compile(find, re.IGNORECASE)
+        for g in groups:
+            base = None  # depth of the matching comment whose replies are being shown
+            for depth, d in g:
+                if base is not None and depth <= base:
+                    base = None
+                if base is None and pattern.search(d.get("body") or ""):
+                    base = depth
+                if base is not None:
+                    out.append(line(depth - base, d))
+        return [f"--- {len(out)} of {total} archived comments: each one matching /{find}/, with all its replies"] + out
+    ranked = sorted(groups, key=lambda g: -int(g[0][1].get("score") or 0))[:top]
+    for g in ranked:
+        out += [line(depth, d) for depth, d in g[:replies + 1]]
+        if len(g) > replies + 1:
+            out.append(f"    (+{len(g) - replies - 1} more replies here: raise --replies, or use --find)")
+    return [f"--- top {len(ranked)} of {len(groups)} top-level comments by score, each with its first {replies} replies "
+            f"({total} comments archived)"] + out
 
 
 def selftest():
@@ -273,6 +305,19 @@ def selftest():
             '<a href="https://www.reddit.com/r/cookware/wiki/index">not a thread</a>')
     assert thread_links(page, "cookware") == {"abc12": ("Cookware", "d3_vs_d5")}, thread_links(page, "cookware")
     assert list(thread_links(page)) == ["abc12", "zzz99"]
+
+    def c(author, score, body, *kids):
+        return {"kind": "t1", "data": {"author": author, "score": score, "body": body, "created_utc": 1767225600,
+                                       "replies": {"data": {"children": list(kids)}} if kids else ""}}
+    tree = [c("fan", 3, "Get the Breville", c("owner", 1, "Mine died in two years", c("fan", 1, "Unlucky"))),
+            c("other", 9, "Dualit")]
+    top = comment_lines(tree, 5, 80, 8, None)
+    assert [x.split(": ")[1] for x in top[1:]] == ["Dualit", "Get the Breville", "Mine died in two years", "Unlucky"], top
+    assert top[3].startswith("    [") and top[4].startswith("        ["), top  # replies sit under their parent
+    assert "+1 more replies" in comment_lines(tree, 5, 80, 1, None)[-1]
+    found = comment_lines(tree, 5, 80, 8, "breville")
+    assert [x.split(": ")[1] for x in found[1:]] == ["Get the Breville", "Mine died in two years", "Unlucky"], found
+    assert comment_lines(tree, 5, 80, 8, "died")[1].startswith("[   1] u/owner"), "a matching reply is shown from its own depth"
     print("selftest ok")
 
 
@@ -288,13 +333,16 @@ if __name__ == "__main__":
     s.add_argument("--limit", type=int, default=25)
     t = cmd.add_parser("thread")
     t.add_argument("ref", help="post id or thread URL")
-    t.add_argument("--top", type=int, default=25, help="comments to print, highest score first")
+    t.add_argument("--top", type=int, default=25, help="top-level comments to print, highest score first")
     t.add_argument("--chars", type=int, default=700, help="characters kept per comment")
+    t.add_argument("--replies", type=int, default=8, help="replies printed under each top-level comment")
+    t.add_argument("--find", metavar="REGEX", help='print every comment matching this (e.g. "breville|bit more"), '
+                   "whatever its score, with all its replies")
     cmd.add_parser("selftest")
     a = ap.parse_args()
     if a.cmd == "search":
         search(a.query, a.sub, a.time, a.sort, a.limit)
     elif a.cmd == "thread":
-        thread(a.ref, a.top, a.chars)
+        thread(a.ref, a.top, a.chars, a.replies, a.find)
     else:
         selftest()
