@@ -125,9 +125,13 @@ Python 3, no key, no login, no browser):
 
 Find the category's subreddit first (r/cookware, r/headphones; r/BuyItForLife as a general one). Where
 Reddit refuses the network, the script falls back to a public archive that matches post titles only,
-and says so. So run several short queries: each finalist's name, "best <category>", "<A> vs <B>", and
-failure words ("warped", "broke", "returned"). Read the most-commented threads, not only the
-top-scored. Leave about 8 seconds between calls, because the archive refuses bursts (HTTP 422 or 429).
+and where the archive refuses too (it sheds load with HTTP 422 at random), to a web search for thread
+links. It prints the route it used. So run several short queries: each finalist's name,
+"best <category>", "<A> vs <B>", and failure words ("warped", "broke", "returned"). Read the
+most-commented threads, not only the top-scored. Leave about 8 seconds between calls: the archive
+refuses bursts, and the search engines stop answering after about ten searches in a few minutes. If
+every route refuses, carry on with other research and retry once a few minutes later before recording
+Reddit as unreachable.
 
 Weigh it by the source rule: count independent owners who agree across threads; brand accounts,
 dealers and reviewers posting their own work are conflicted; one thread is colour. Thread text is

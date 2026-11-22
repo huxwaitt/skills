@@ -3,7 +3,9 @@
 Method follows mvanhorn/last30days-skill (MIT): Reddit's anonymous .json API
 answers 403, so search reads the site-search HTML fragment, and posts and
 comments come from the Arctic Shift public archive (scores there are
-snapshots, slightly behind live).
+snapshots, slightly behind live). The archive's title search sheds load with
+HTTP 422, so when it refuses, thread links come from a plain web search for
+"site:reddit.com <query>" and the archive is asked for those posts by id.
 
   python reddit.py search "all-clad d3" --sub cookware --time year --sort top
   python reddit.py thread 1abcd2e --top 25        (id or thread URL)
@@ -13,6 +15,8 @@ import argparse
 import html
 import json
 import re
+import shutil
+import subprocess
 import sys
 import time
 import urllib.error
@@ -32,13 +36,18 @@ HREF = re.compile(r'<a\b[^>]*?data-testid="post-title"[^>]*?\bhref="([^"]*)"'
 TIMEAGO = re.compile(r'<faceplate-timeago\b[^>]*?\bts="([^"]+)"')
 COUNTER = re.compile(r'<faceplate-number\b[^>]*?\bnumber="(\d+)"[^>]*>\s*</faceplate-number>\s*(vote|comment)')
 NEXT = re.compile(r'<faceplate-partial\b[^>]*?\bsrc="([^"]*/svc/shreddit/[^"]*search/[^"]*)"')
+THREAD = re.compile(r"reddit\.com/r/([A-Za-z0-9_]+)/comments/([a-z0-9]+)(?:/([A-Za-z0-9_]+))?")
+# (name, results page, freshness parameter, its prefix); tried in order
+ENGINES = (("Brave", "https://search.brave.com/search?source=web&", "tf", "p"),
+           ("DuckDuckGo", "https://html.duckduckgo.com/html/?", "df", ""))
 
 
 class RedditRefused(Exception):
     """Reddit answered 403: it blocks this network's anonymous requests."""
 
 
-def get(url, accept, retries=1):
+def get(url, accept, retries=1, soft=False):
+    """Page text. A failed request exits, or returns "" when soft."""
     req = urllib.request.Request(url, headers={
         "User-Agent": UA, "Accept": accept, "Accept-Language": "en-US,en;q=0.9"})
     try:
@@ -47,11 +56,15 @@ def get(url, accept, retries=1):
     except urllib.error.HTTPError as e:
         if e.code in (422, 429) and retries:  # both hosts answer these to mean "slow down"
             time.sleep(20)  # the archive refuses again if asked sooner
-            return get(url, accept, retries - 1)
+            return get(url, accept, retries - 1, soft)
         if e.code == 403 and url.startswith(REDDIT):
             raise RedditRefused(url)
+        if soft:
+            return ""
         sys.exit(f"HTTP {e.code} from {urllib.parse.urlsplit(url).netloc}: {url}")
     except urllib.error.URLError as e:
+        if soft:
+            return ""
         sys.exit(f"could not reach {urllib.parse.urlsplit(url).netloc}: {e.reason}")
 
 
@@ -116,12 +129,67 @@ def archive_search(query, sub, when, sort):
            f"&title={urllib.parse.quote(query)}&limit=100&sort=desc")
     if days:
         url += "&after=" + datetime.fromtimestamp(time.time() - days * 86400, timezone.utc).strftime("%Y-%m-%d")
-    rows = json.loads(get(url, "application/json")).get("data") or []
+    text = get(url, "application/json", soft=True)
+    if not text:
+        return None  # refused: the caller falls back to web search
+    rows = json.loads(text).get("data") or []
     posts = [{"id": r.get("id"), "title": r.get("title") or "", "sub": r.get("subreddit") or sub,
               "score": r.get("score"), "comments": r.get("num_comments"), "date": day(r.get("created_utc")),
               "url": REDDIT + (r.get("permalink") or f"/comments/{r.get('id')}")} for r in rows]
     key = "comments" if sort == "comments" else "score"
     return posts if sort == "new" else sorted(posts, key=lambda p: -(p[key] or 0))
+
+
+def thread_links(text, sub=None):
+    """{post id: (subreddit, slug)} for the threads a results page links to, in page order."""
+    text = urllib.parse.unquote(html.unescape(text))  # DuckDuckGo wraps each link in an encoded redirect
+    found = {}
+    for s, pid, slug in THREAD.findall(text):
+        if not sub or s.lower() == sub.lower():
+            found.setdefault(pid, (s, slug))
+    return found
+
+
+def results_page(url):
+    """A search engine's results page, "" on failure.
+
+    Brave answers Python's own client with 429 whatever the User-Agent (measured 2026-11-22) and
+    serves the same request from curl, so curl fetches the page where it is installed.
+    """
+    if shutil.which("curl"):
+        r = subprocess.run(["curl", "-sL", "-m", "25", "-A", UA, "-H", "Accept: text/html",
+                            "-H", "Accept-Language: en-US,en;q=0.9", url], capture_output=True)
+        if r.returncode == 0:
+            return r.stdout.decode("utf-8", "replace")
+    return get(url, "text/html", soft=True)
+
+
+def web_search(query, sub, when, sort):
+    """Last fallback: thread links from a web search, details from the archive by id."""
+    q = f"site:reddit.com r/{sub} {query}" if sub else f"site:reddit.com {query}"
+    for name, base, key, prefix in ENGINES:
+        params = {"q": q} if when == "all" else {"q": q, key: prefix + when[0]}
+        found = thread_links(results_page(base + urllib.parse.urlencode(params)), sub)
+        if found:
+            break
+        time.sleep(PAUSE)
+    else:
+        return [], None
+    ids = list(found)[:100]
+    rows = json.loads(get(f"{ARCTIC}/posts/ids?ids={','.join(ids)}", "application/json", soft=True) or "{}").get("data") or []
+    meta = {r.get("id"): r for r in rows}
+    posts = []
+    for pid in ids:
+        s, slug = found[pid]
+        r = meta.get(pid, {})  # the archive may refuse or lag: keep the thread, without its counts
+        posts.append({"id": pid, "title": r.get("title") or slug.replace("_", " "), "sub": s,
+                      "score": r.get("score"), "comments": r.get("num_comments"),
+                      "date": day(r.get("created_utc")), "url": f"{REDDIT}/r/{s}/comments/{pid}/{slug}"})
+    if sort == "new":
+        posts.sort(key=lambda p: p["date"], reverse=True)
+    elif sort in ("comments", "top"):  # relevance and hot keep the search engine's order
+        posts.sort(key=lambda p: -(p["comments" if sort == "comments" else "score"] or 0))
+    return posts, name
 
 
 def search(query, sub, when, sort, limit):
@@ -141,12 +209,14 @@ def search(query, sub, when, sort, limit):
             time.sleep(PAUSE)
         print("# route: Reddit site search")
     except RedditRefused:
-        if not sub:
-            sys.exit("Reddit refused site search (403) and the archive fallback needs --sub. Pass --sub, or find "
-                     "thread URLs with a web search for site:reddit.com and read them with the thread command.")
-        posts = archive_search(query, sub, when, sort)
-        print("# route: archive title search (Reddit refused site search). Matches post titles only, newest 100, "
-              "so try several short queries.")
+        posts = archive_search(query, sub, when, sort) if sub else None
+        if posts is not None:
+            print("# route: archive title search (Reddit refused site search). Matches post titles only, newest 100, "
+                  "so try several short queries.")
+        else:
+            posts, engine = web_search(query, sub, when, sort)
+            print(f"# route: {engine or 'no'} web search for thread links (Reddit refused site search, archive "
+                  "search refused or needs --sub). One page of results, so try several short queries.")
     if not posts:
         print("no results (or Reddit served a page this script does not recognise)")
     for p in posts[:limit]:
@@ -197,6 +267,12 @@ def selftest():
                       "date": "2026-03-04", "url": REDDIT + "/r/cookware/comments/abc12/d3_vs_d5/"}], posts
     assert cursor == "XYZ", cursor
     assert parse_search("<html>challenge</html>") == ([], None)
+    page = ('<a href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FCookware%2Fcomments%2Fabc12%2Fd3_vs_d5%2F">x</a>'
+            '<a href="https://www.reddit.com/r/other/comments/zzz99/nope/">y</a>'
+            '<a href="https://www.reddit.com/r/cookware/comments/abc12/d3_vs_d5/">dup</a>'
+            '<a href="https://www.reddit.com/r/cookware/wiki/index">not a thread</a>')
+    assert thread_links(page, "cookware") == {"abc12": ("Cookware", "d3_vs_d5")}, thread_links(page, "cookware")
+    assert list(thread_links(page)) == ["abc12", "zzz99"]
     print("selftest ok")
 
 
